@@ -39,6 +39,8 @@ We use a binomial model approach to approximate option prices. The binomial opti
 
 **Sources**
 
+https://github.com/ranaroussi/yfinance
+
 Hull, J.C. (2012). Options, Futures and Other Derivatives. 8th Edition, Prentice-Hall, Upper Saddle River. pp. 253-273
 
 https://www.investopedia.com/articles/investing/021215/examples-understand-binomial-option-pricing-model.asp
