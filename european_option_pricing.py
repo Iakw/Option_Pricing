@@ -1,13 +1,15 @@
-# Option Pricing
-# Evaluating investment opportunities based on the comparison of the intrinsic vs. actually traded values of European options
+#Option Pricing
+#Evaluating investment opportunities based on the comparison of the intrinsic vs. actually traded values of European options
 
 #___________________________________________________________________________________
 
-# 1. Preparation
+#1. Preparation
 
-# Import libraries and modules
+#Install yfinance in case of issues see https://github.com/ranaroussi/yfinance
 
 pip install yfinance
+
+#Import libraries and modules
 
 import yfinance as yf
 import numpy as np
@@ -18,7 +20,7 @@ from dateutil.relativedelta import relativedelta
 
 #___________________________________________________________________________________
 
-# 2. Ask for user inputs
+#2. Ask for user inputs
 
 #Ask for ticker
 while True:
@@ -54,19 +56,19 @@ while True:
     try:
         option_chosen = df.iloc[(df['strike']-float(input("Please enter strike: "))).abs().argsort()[:1]]
     except ValueError:
-        print("please enter a number.")
+        print("Please enter a numeric value.")
         continue
     else:
         break
 #___________________________________________________________________________________
 
-# 3. Get additional data from yahoo finance
+#3. Get additional data from yahoo finance
 
-#Get actual strike, current price and volatility of the chosen option and tell the user what the actual strike is          
+#Get closest strike, current price and volatility of the chosen option and tell the user what the actual strike is          
 strike = option_chosen.iloc[0]["strike"]
 price = option_chosen.iloc[0]["ask"]
 volatility = option_chosen.iloc[0]["impliedVolatility"]
-print("we found an option with strike: ", strike)
+print("The closest currently traded strike is: ", strike)
 
 
 #Timedelta for function, time to maturity in years
@@ -81,7 +83,7 @@ hist = ticker.history(period="max")
 hist = hist.tail(1)
 stockprice = hist.iloc[0]["Open"]
 
-#risk free rate
+#Risk free rate
 risk_free = yf.Ticker("^IRX")
 hist = risk_free.history()
 hist = hist.tail(1)
@@ -89,7 +91,6 @@ r = hist.iloc[0]["Open"]/100
 
 #Dividend approximation based on historic dividend returns. 
 dividend = hist["Dividends"]
-
 delta_years_floor = math.floor(time_to_maturity)
 delta_years_ceil = delta_years_floor + 1
 prior_year_t = today - relativedelta(years=1)
@@ -99,7 +100,7 @@ dividend_approx = dividend_approx + sum(dividend.loc[prior_year_t:prior_year_exp
 
 #___________________________________________________________________________________
 
-# 4. Definition of four functions for different option types
+#4. Definition of four functions for different option types
 
 def European_Call_Div (S0, K, T, sigma, n):
 
@@ -111,7 +112,7 @@ def European_Call_Div (S0, K, T, sigma, n):
   ContAnDivRate = np.log(1+DivRate)
   p = (np.exp((r-ContAnDivRate)*dt)-d)/(u-d)
 
-# Price tree
+#Price tree
   # Store the price tree in a square matirx 
   price_tree = np.zeros([n+1, n+1])
 
@@ -126,12 +127,12 @@ def European_Call_Div (S0, K, T, sigma, n):
   #Determine the value of the call option at maturity
   option[:, n] = np.maximum(np.zeros(n+1), price_tree[:, n]-K)
 
-  # Iterate backwards the value of the call option
+  #Iterate backwards the value of the call option
   for i in np.arange(n-1, -1, -1):
     for j in np.arange(0,i+1):
       option[j, i] = np.exp(-r*dt)*(p*option[j, i+1]+(1-p)*option[j+1, i+1])
 
-  # Return
+  #Return
   return option[0, 0]
 
 def European_Call (S0, K, T, sigma, n):
@@ -141,7 +142,7 @@ def European_Call (S0, K, T, sigma, n):
   d = 1/u
   p = (np.exp(r*dt)-d)/(u-d)
 
-# Price tree
+#Price tree
   # Store the price tree in a square matirx 
   price_tree = np.zeros([n+1, n+1])
 
@@ -156,12 +157,12 @@ def European_Call (S0, K, T, sigma, n):
   #Determine the value of the call option at maturity
   option[:, n] = np.maximum(np.zeros(n+1), price_tree[:, n]-K)
 
-  # Iterate backwards the value of the call option
+  #Iterate backwards the value of the call option
   for i in np.arange(n-1, -1, -1):
     for j in np.arange(0,i+1):
       option[j, i] = np.exp(-r*dt)*(p*option[j, i+1]+(1-p)*option[j+1, i+1])
 
-  # Return
+  #Return
   return option[0, 0]
 
 def European_Put_Div (S0, K, T, sigma, n):
@@ -174,7 +175,7 @@ def European_Put_Div (S0, K, T, sigma, n):
   ContAnDivRate = np.log(1+DivRate)
   p = (np.exp((r-ContAnDivRate)*dt)-d)/(u-d)
 
-# Price tree
+#Price tree
  # Store the price tree in a square matirx 
   price_tree = np.zeros([n+1, n+1])
 
@@ -189,12 +190,12 @@ def European_Put_Div (S0, K, T, sigma, n):
  #Determine the value of the put option at maturity
   option[:, n] = np.maximum(np.zeros(n+1), K-price_tree[:, n])
 
- # Iterate backwards the value of the put option
+ #Iterate backwards the value of the put option
   for i in np.arange(n-1, -1, -1):
     for j in np.arange(0,i+1):
       option[j, i] = np.exp(-r*dt)*(p*option[j, i+1]+(1-p)*option[j+1, i+1])
 
- # Return
+ #Return
   return option[0, 0]
 
 def European_Put (S0, K, T, sigma, n):
@@ -205,7 +206,7 @@ def European_Put (S0, K, T, sigma, n):
   d = 1/u
   p = (np.exp(r*dt)-d)/(u-d)
 
-# Price tree
+#Price tree
   # Store the price tree in a square matirx 
   price_tree = np.zeros([n+1, n+1])
 
@@ -220,34 +221,34 @@ def European_Put (S0, K, T, sigma, n):
   #Determine the value of the call option at maturity
   option[:, n] = np.maximum(np.zeros(n+1), K-price_tree[:, n])
 
-  # Iterate backwards the value of the call option
+  #Iterate backwards the value of the call option
   for i in np.arange(n-1, -1, -1):
     for j in np.arange(0,i+1):
       option[j, i] = np.exp(-r*dt)*(p*option[j, i+1]+(1-p)*option[j+1, i+1])
 
-  # Return
+  #Return
   return option[0, 0]
 
 #___________________________________________________________________________________
 
-# 5. Final calculation
-#Choosing the correct funtion for the bond and comparing the price to the output of our funtion
-if opttype == "call" and dividend_approx == 0:
+#5. Final calculation
+#Choosing the correct funtion for the bond and comparing the currently traded price to the intrinsic output price of our funtion
+if opttype == "calls" and dividend_approx == 0:
     pred_price=European_Call(stockprice, strike, time_to_maturity,volatility,50)
-    print("we calculated the following price for you: ",pred_price)
-    print("This is the traded price",price)
-elif opttype == "call" and dividend_approx > 0:
+    print("The intrinsic value of the option is: ",pred_price)
+    print("The currently traded price is:",price)
+elif opttype == "calls" and dividend_approx > 0:
     pred_price=European_Call_Div(stockprice, strike, time_to_maturity,volatility,50)
-    print("we calculated the following price for you: ",pred_price)
-    print("This is the traded price",price)
-elif opttype == "put" and dividend_approx == 0:
+    print("The intrinsic value of the option is: ",pred_price)
+    print("The currently traded price is:",price)
+elif opttype == "puts" and dividend_approx == 0:
     pred_price=European_Put(stockprice, strike, time_to_maturity,volatility,50)
-    print("we calculated the following price for you: ",pred_price)
-    print("This is the traded price",price)
+    print("The intrinsic value of the option is: ",pred_price)
+    print("The currently traded price is:",price)
 else:
     pred_price=European_Put_Div(stockprice, strike, time_to_maturity,volatility,50)
-    print("we calculated the following price for you: ",pred_price)
-    print("This is the traded price",price)
+    print("The intrinsic value of the option is: ",pred_price)
+    print("The currently traded price is:",price)
     
 #Give a recommendation to the user based on the difference in prices
 pricediff=round(pred_price-price,2)
@@ -256,4 +257,4 @@ if pricediff>1:
 elif pricediff<-1:
     print("Since the option's traded price is significantly above its intrinsic value, we recommend to sell the option. The calculated price difference is: ",pricediff)
 else: 
-    print("There is no point in buying/selling this option due to the small difference between intrinsic and traded value and due to additional transaction costs.")
+    print("There is no point in buying/selling this option due to the small difference between intrinsic and traded value and additional transaction costs.")
