@@ -2,7 +2,8 @@ Group project: option pricing
 
 **About**
 
-This is a student project of the university of St. Gallen of the course Programming with Advanced Computer Languages. Our goal is to provide the user a basic recommendation on investing in an european option by calculating the real option value and comparing it to the currently traded price.
+This is a student project of the university of St. Gallen of the course Programming with Advanced Computer Languages. Our goal is to provide the user 
+a basic recommendation on investing in an european option by calculating the real option value and comparing it to the currently traded price.
 
 **Pre-requisites**
 
