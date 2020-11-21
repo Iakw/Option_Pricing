@@ -2,8 +2,7 @@ Group project #2258: european option pricing with python
 
 **About**
 
-This is a student project of the university of St. Gallen of the course Programming with Advanced Computer Languages. Our goal is to provide the user 
-a basic recommendation on investing in an european option by calculating the real option value and comparing it to the currently traded price.
+This is a student project of the university of St. Gallen of the course Programming with Advanced Computer Languages. Our goal is to provide the user a basic recommendation on investing in an european option by calculating the real option value and comparing it to the currently traded price.
 
 **Pre-requisites**
 
@@ -21,7 +20,6 @@ yfinance, numpy, math, pandas, datetime, relativedelta
 	2.4 The strike price
 3. Enjoy our recommendation
 
-
 **Description**
 
 What did we do?
@@ -35,7 +33,6 @@ An european stock option gives the holder the right (but not the obligation) to 
 
 What is a binomial option pricing model?
 We use a binomial model approach to approximate option prices. The binomial option pricing model uses an iterative procedure, allowing for the specification of nodes (points in time) during the time span between the valuation date and the option's expiration date. A binomial model can be visualized graphically by a binomial tree. The binomial tree consists of possible intrinsic values that an option may take at different nodes or time periods. The number n determines the number of iterations between today and the expiration date of the option.
-
 
 **Sources**
 
