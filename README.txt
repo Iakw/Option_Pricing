@@ -12,7 +12,7 @@ yfinance, numpy, math, pandas, datetime, relativedelta
 
 **Instructions**
 
-1. Start xxx.py
+1. Start european_option_pricing.py
 2. Follow the programmes’ instructions and input the following data points.
 	2.1 The stock’s ticker
 	2.2 The expiration date
