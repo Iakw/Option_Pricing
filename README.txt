@@ -1,4 +1,4 @@
-Group project #2258: option pricing
+Group project #2258: european option pricing with python
 
 **About**
 
