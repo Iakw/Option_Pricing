@@ -1,4 +1,4 @@
-Group project: option pricing
+Group project #2258: option pricing
 
 **About**
 
