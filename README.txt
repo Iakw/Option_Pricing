@@ -19,6 +19,7 @@ yfinance, numpy, math, pandas, datetime, relativedelta
 	2.2 The expiration date
 	2.3 The option type (put / call)
 	2.4 The strike price
+3. Enjoy our recommendation
 
 
 **Description**
